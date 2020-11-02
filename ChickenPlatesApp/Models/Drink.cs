@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChickenPlatesApp.Models
 {
@@ -11,7 +7,10 @@ namespace ChickenPlatesApp.Models
         [Key]
         public long Id { get; set; }
 
+        [Required]
         [MaxLength(250)]
         public string DrinkName { get; set; }
+        public ChickenPlate ChickenPlate { get; set; }
+        public long ChickenPlateId { get; set; }
     }
 }

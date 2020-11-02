@@ -9,15 +9,19 @@ namespace ChickenPlatesApp.Models
         [Key]
         public long Id { get; set; }
 
+        [Required]
         [MaxLength(250)]
         public string Name { get; set; }
 
+        [Required]
         [MaxLength(250)]
         public string Sauce { get; set; }
         public decimal ChickenAmount { get; set; }
         public ChickenType Type { get; set; }
-        public ChickenPart part { get; set; }
+        public ChickenPart Part { get; set; }
+        public long PartId { get; set; }
         public SideDish Dish { get; set; }
+        public long DishId { get; set; }
         public List<Drink> Drinks { get; set; }
     }
 }

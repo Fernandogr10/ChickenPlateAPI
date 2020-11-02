@@ -29,7 +29,7 @@ namespace ChickenPlatesApp
         {
             services.AddDbContext<ChickenContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("default"), builder =>
-                    builder.MigrationsAssembly("ChickenPlatesAPI")));
+                    builder.MigrationsAssembly("ChickenPlatesApp")));
 
             services.AddControllers();
         }

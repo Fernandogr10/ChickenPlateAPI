@@ -7,6 +7,7 @@ namespace ChickenPlatesApp.Models
         [Key]
         public long Id { get; set; }
 
+        [Required]
         [MaxLength(250)]
         public string DishName { get; set; }
     }
