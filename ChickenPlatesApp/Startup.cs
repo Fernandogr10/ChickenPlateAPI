@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChickenPlatesApp.Data;
+using ChickenPlatesApp.Data.Repositories;
+using ChickenPlatesApp.Models.Repositories;
+using ChickenPlatesApp.Services;
+using ChickenPlatesApp.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +34,12 @@ namespace ChickenPlatesApp
             services.AddDbContext<ChickenContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("default"), builder =>
                     builder.MigrationsAssembly("ChickenPlatesApp")));
+
+            services.AddScoped<ISideDishService, SideDishService>();
+
+            services.AddScoped<ISideDishRepository, SideDishRepository>();           
+
+            services.AddScoped<SideDishService>();
 
             services.AddControllers();
         }
