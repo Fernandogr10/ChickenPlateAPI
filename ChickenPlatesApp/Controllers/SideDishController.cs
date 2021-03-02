@@ -7,8 +7,6 @@ using ChickenPlatesApp.Models;
 using ChickenPlatesApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ChickenPlatesApp.Controllers
 {
     [Route("api/[controller]")]
@@ -26,39 +24,28 @@ namespace ChickenPlatesApp.Controllers
         [HttpGet("GetAll")]
         public ActionResult<List<SideDish>> GetAll()
         {
-            try
-            {
-                return Ok(_sideDishService.GetAll());
-            }
-
-            catch(Exception ex)
-            {
-                return BadRequest("An error occurred: " + ex.Message);
-            }            
+            var result = _sideDishService.GetAll();
+            return result != null ? (ActionResult) Ok(result) : NotFound();
         }
 
-        // GET api/<SIdeDishController>/5
         [HttpGet("Get/{id}")]
         public ActionResult<SideDish> Get(long id)
         {
-            try
-            {
-                return Ok(_sideDishService.Get(id));
-            }
-
-            catch (Exception ex)
-            {
-                return BadRequest("An error occurred: " + ex.Message);
-            }
+            var result = _sideDishService.Get(id);
+            return result != null ? (ActionResult) Ok(result) : NotFound();
         }
 
-        // POST api/<SIdeDishController>
         [HttpPost("Create")]
         public ActionResult<SideDish> Create([FromBody] SideDishDto sideDishObject)
         {
             try
             {
-                var sideDish = new SideDish { DishName = sideDishObject.DishName };
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var sideDish = new SideDish {DishName = sideDishObject.DishName};
 
                 var result = _sideDishService.Create(sideDish);
                 _sideDishService.SaveChanges();
@@ -66,22 +53,52 @@ namespace ChickenPlatesApp.Controllers
                 return Ok(result);
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest("An error occurred: " + ex.Message);
+                return StatusCode(500);
             }
         }
 
-        // PUT api/<SIdeDishController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<SideDish> Put(int id, [FromBody] SideDishDto sideDishObject)
         {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var entity = _sideDishService.Get(id);
+                if (entity is null)
+                    return NotFound();
+
+                entity = new SideDish {DishName = sideDishObject.DishName};
+
+                var result = _sideDishService.Update(entity);
+                _sideDishService.SaveChanges();
+
+                return Ok(result);
+            }
+
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
-        // DELETE api/<SIdeDishController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
+            var entity = _sideDishService.Get(id);
+
+            if (entity is null)
+                return NotFound();
+
+            _sideDishService.Delete(entity);
+            _sideDishService.SaveChanges();
+
+            return NoContent();
         }
     }
 }

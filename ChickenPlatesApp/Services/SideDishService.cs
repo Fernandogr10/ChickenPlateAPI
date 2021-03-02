@@ -22,9 +22,9 @@ namespace ChickenPlatesApp.Services
             return _repo.Create(sideDish);
         }
 
-        public void Delete(long sideDishId)
+        public void Delete(SideDish sideDish)
         {
-            throw new NotImplementedException();
+            _repo.Delete(sideDish);
         }
 
         public SideDish Get(long sideDishId)
@@ -44,7 +44,7 @@ namespace ChickenPlatesApp.Services
 
         public SideDish Update(SideDish sideDish)
         {
-            throw new NotImplementedException();
+            return _repo.Update(sideDish);
         }
     }
 }

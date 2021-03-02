@@ -11,7 +11,7 @@ namespace ChickenPlatesApp.Services.Interfaces
         SideDish Create(SideDish sideDish);
         SideDish Get(long sideDishId);
         List<SideDish> GetAll();
-        void Delete(long sideDishId);
+        void Delete(SideDish sideDish);
         SideDish Update(SideDish sideDish);
         void SaveChanges();
     }
